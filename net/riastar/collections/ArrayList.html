@@ -1,0 +1,89 @@
+<element name="fx-array-list" constructor="ArrayList" attributes="source">
+    <script>
+        Polymer.register(this, {
+
+            //properties
+            _source: [],
+            get source() {
+                return this._source;
+            },
+            set source(value) {
+                this._source = value || [];
+            },
+
+            get items() {
+                return this._source;
+            },
+            set items(value) {
+                this._source = value || [];
+            },
+
+            get length() {
+                return this._source ? this._source.length : 0;
+            },
+
+            //behaviour
+            addItem: function (value) {
+                this.addItemAt(value, this.length);
+            },
+
+            addItemAt: function (value, index) {
+                this._validateIndex(index);
+                this._source.splice(index, 0, value);
+            },
+
+            getItemAt: function (index) {
+                this._validateIndex(index);
+                return this._source[index];
+            },
+
+            setItemAt: function (value, index) {
+                this._validateIndex(index);
+                this._source[index] = value;
+            },
+
+            getItemIndex: function (item) {
+                for (var i = 0; i < this.length; i++)
+                    if (this._source[i] === item)
+                        return i;
+
+                return -1;
+            },
+
+            addAll: function (list) {
+                this.addAllAt(list, this.length);
+            },
+
+            addAllAt: function (list, index) {
+                for (var i = 0; i < list.getLength(); i++) {
+                    var item = list.getItemAt(i);
+                    this.addItemAt(item, i + index);
+                }
+            },
+
+            removeItem: function (item) {
+                var index = this.getItemIndex(item);
+                var result = index >= 0;
+
+                if (result) this.removeItemAt(index);
+                return result;
+            },
+
+            removeItemAt: function (index) {
+                this._validateIndex(index);
+                return this._source.splice(index, 1)[0];
+            },
+
+            removeAll: function () {
+                if (this.length > 0)
+                    this._source.splice(0, this.length);
+            },
+
+            _validateIndex: function (index) {
+                if (index < 0 || index > this.length)
+                    throw new Error("Out of bounds: " + index);
+            }
+
+        });
+    </script>
+</element>

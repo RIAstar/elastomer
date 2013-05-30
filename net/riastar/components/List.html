@@ -1,0 +1,27 @@
+<link rel="import" href="supportClasses/ItemRenderer.html">
+
+<element name="fx-list" constructor="List" attributes="dataProvider">
+    <script>
+        Polymer.register(this, {
+
+            _dataProvider: null,
+            get dataProvider() {
+                return this._dataProvider;
+            },
+            set dataProvider(value) {
+                this._dataProvider = value;
+            }
+        });
+    </script>
+
+    <template>
+        <template bind="{{dataProvider}}">
+            <ul>
+                <template repeat="{{items}}">
+                    <fx-item-renderer data="{{}}"></fx-item-renderer>
+                </template>
+            </ul>
+        </template>
+    </template>
+
+</element>

@@ -1,0 +1,41 @@
+<script src="../events/FlexEvent.js"></script>
+<link rel="import" href="../collections/ArrayList.html">
+<link rel="import" href="../components/List.html">
+<link rel="import" href="../components/TextInput.html">
+
+<element name="fx-todo-mvc">
+
+    <script>
+        Polymer.register(this, {
+            dp: new ArrayList(),
+
+            ready: function () {
+                this.dp.source = ["A", "B", "C"];
+                this.$.newTodoInput.addEventListener(FlexEvent.ENTER, this.createTodo.bind(this));
+            },
+
+            createTodo: function () {
+                var input = this.$.newTodoInput;
+
+                if (input.text !== '') {
+                    this.dp.addItem(input.text);
+                    input.text = '';
+                }
+            }
+        });
+    </script>
+
+    <style>
+
+    </style>
+
+    <template>
+        <header id="header">
+            <h1>Todo's</h1>
+            <fx-text-input id="newTodoInput" prompt="What needs to be done?" autofocus/>
+        </header>
+
+        <fx-list id="myList" dataProvider="{{dp}}"></fx-list>
+    </template>
+
+</element>
