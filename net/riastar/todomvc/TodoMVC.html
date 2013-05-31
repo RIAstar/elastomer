@@ -25,17 +25,29 @@
         });
     </script>
 
-    <style>
-
-    </style>
-
     <template>
+        <style>
+            header, section {
+                width: 150px;
+            }
+
+            header {
+                margin: 30px 30px 15px 30px;
+            }
+
+            section {
+                margin: 15px 30px 30px 30px;
+            }
+        </style>
+
         <header id="header">
             <h1>Todo's</h1>
             <fx-text-input id="newTodoInput" prompt="What needs to be done?" autofocus/>
         </header>
 
-        <fx-list id="myList" dataProvider="{{dp}}"></fx-list>
+        <section>
+            <fx-list id="myList" dataProvider="{{dp}}"></fx-list>
+        </section>
     </template>
 
 </element>

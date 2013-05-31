@@ -1,0 +1,16 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 12px Arial, sans-serif;
+    line-height: 1.4em;
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -ms-font-smoothing: antialiased;
+    -o-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}

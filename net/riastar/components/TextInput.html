@@ -1,5 +1,4 @@
 <script src="../events/FlexEvent.js"></script>
-<link rel="import" href="../events/FlexEvent.js">
 
 <element name="fx-text-input" constructor="TextInput" attributes="prompt autofocus">
 
@@ -32,14 +31,25 @@
             },
 
             handleKeyPress: function (event) {
-                if (event.keyCode === 13)
-                    this.dispatchEvent(new CustomEvent(FlexEvent.ENTER));
+                if (event.keyCode === 13) this.fire(FlexEvent.ENTER);
             }
 
         });
     </script>
 
     <template>
+        <style>
+            input {
+                width: 100%;
+                margin: 0;
+                padding: 3px 5px;
+                overflow: hidden;
+                border: #000000 solid 1px;
+                display: block;
+                box-sizing: border-box;
+            }
+        </style>
+
         <input id="input"/>
     </template>
 

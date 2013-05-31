@@ -1,11 +1,62 @@
-<element name="fx-item-renderer" constructor="ItemRenderer" attributes="data">
+<element name="fx-item-renderer" constructor="ItemRenderer" attributes="data itemIndex selected owner">
+
     <script>
         Polymer.register(this, {
-            data: null
+            data: null,
+
+            _selected: false,
+            get selected() {
+                return this._selected;
+            },
+            set selected(value) {
+                this._selected = value;
+                this.updateState();
+            },
+
+            _hovered: false,
+            _state: 'normal',
+
+            ready: function () {
+                this.$.listItem.addEventListener('mouseover', this.toggleHovered.bind(this));
+                this.$.listItem.addEventListener('mousedown', this.toggleSelected.bind(this));
+                this.$.listItem.addEventListener('mouseout', this.toggleHovered.bind(this));
+            },
+
+            toggleHovered: function () {
+                this._hovered = !this._hovered;
+                this.updateState();
+            },
+
+            toggleSelected: function () {
+                this.selected = !this.selected;
+            },
+
+            updateState: function () {
+                if (this._selected) this._state = 'selected';
+                else if (this._hovered) this._state = 'hovered';
+                else this._state = 'normal';
+            }
         });
     </script>
 
     <template>
-        <li>{{data}}</li>
+        <style>
+            li {
+                background-color: #ffffff;
+                list-style: none;
+                padding: 3px 5px;
+            }
+
+            li.hovered {
+                background-color: #CEDBEF;
+            }
+
+            li.selected {
+                background-color: #A8C6EE;
+            }
+        </style>
+
+        <li id="listItem" class="{{_state}}">{{data}}</li>
     </template>
+
 </element>

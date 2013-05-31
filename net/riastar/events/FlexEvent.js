@@ -1,3 +1,5 @@
-var FlexEvent = {
+var FlexEvent = {};
+
+FlexEvent.prototype = {
     ENTER: 'enter'
-};
+}

@@ -1,6 +1,7 @@
 <link rel="import" href="supportClasses/ItemRenderer.html">
 
 <element name="fx-list" constructor="List" attributes="dataProvider">
+
     <script>
         Polymer.register(this, {
 
@@ -10,18 +11,48 @@
             },
             set dataProvider(value) {
                 this._dataProvider = value;
+            },
+
+            _selectedIndex: null,
+            get selectedIndex() {
+                return this._selectedIndex;
+            },
+            set selectedIndex(value) {
+                this._selectedIndex = value;
+                this.updateSelection();
+            },
+
+            handleItemMouseDown: function (event, b, itemRenderer) {
+                this.selectedIndex = this.dataProvider.getItemIndex(itemRenderer.data);
+            },
+
+            updateSelection: function () {
+                var i = 0;
+                var renderer = this.$.rendererTemplate;
+
+                while (renderer = renderer.nextElementSibling) {
+                    renderer.selected = i++ == this.selectedIndex;
+                }
             }
         });
     </script>
 
     <template>
-        <template bind="{{dataProvider}}">
-            <ul>
-                <template repeat="{{items}}">
-                    <fx-item-renderer data="{{}}"></fx-item-renderer>
-                </template>
-            </ul>
-        </template>
+        <style>
+            ul {
+                margin: 0;
+                padding: 0;
+                background-color: #ffffff;
+                border: #000000 solid 1px;
+            }
+        </style>
+
+        <ul id="list">
+            <template id="rendererTemplate" repeat="{{dataProvider.items}}">
+                <fx-item-renderer id="renderer" data="{{}}" on-mousedown="handleItemMouseDown">
+                </fx-item-renderer>
+            </template>
+        </ul>
     </template>
 
 </element>
