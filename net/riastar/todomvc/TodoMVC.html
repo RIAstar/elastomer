@@ -27,7 +27,7 @@
 
     <template>
         <style>
-            header, section {
+            header, section, footer {
                 width: 150px;
             }
 
@@ -36,6 +36,10 @@
             }
 
             section {
+                margin: 15px 30px;
+            }
+
+            footer {
                 margin: 15px 30px 30px 30px;
             }
         </style>
@@ -48,6 +52,11 @@
         <section>
             <fx-list id="myList" dataProvider="{{dp}}"></fx-list>
         </section>
+
+        <footer>
+            <p>selectedIndex: {{$.myList.selectedIndex}}</p>
+            <p>selectedItem: {{$.myList.selectedItem}}</p>
+        </footer>
     </template>
 
 </element>

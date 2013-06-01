@@ -18,7 +18,22 @@
                 return this._selectedIndex;
             },
             set selectedIndex(value) {
+                if (this._selectedIndex === value) return;
+
                 this._selectedIndex = value;
+                this.selectedItem = this.dataProvider.getItemAt(value);
+                this.updateSelection();
+            },
+
+            _selectedItem: null,
+            get selectedItem() {
+                return this._selectedItem;
+            },
+            set selectedItem(value) {
+                if (this._selectedItem === value) return;
+
+                this._selectedItem = value;
+                this.selectedIndex = this.dataProvider.getItemIndex(value);
                 this.updateSelection();
             },
 
