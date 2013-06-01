@@ -18,11 +18,7 @@
                 return this._selectedIndex;
             },
             set selectedIndex(value) {
-                if (this._selectedIndex === value) return;
-
-                this._selectedIndex = value;
-                this.selectedItem = this.dataProvider.getItemAt(value);
-                this.updateSelection();
+                this.selectedIndices = value == null || value === undefined ? null : [value];
             },
 
             _selectedItem: null,
@@ -30,23 +26,62 @@
                 return this._selectedItem;
             },
             set selectedItem(value) {
-                if (this._selectedItem === value) return;
+                this.selectedIndex = value == null || value === undefined ?
+                        null : this.dataProvider.getItemIndex(value);
+            },
 
-                this._selectedItem = value;
-                this.selectedIndex = this.dataProvider.getItemIndex(value);
-                this.updateSelection();
+            _selectedIndices: [],
+            get selectedIndices() {
+                return this._selectedIndices;
+            },
+            set selectedIndices(value) {
+                this._selectedIndices = value || [];
+                this.commitSelection();
+            },
+
+            _selectedItems: null,
+            get selectedItems() {
+                return this._selectedItems;
+            },
+            set selectedItems(value) {
+                if (this._selectedItems !== value)
+                    this.selectedIndices = value ? value.map(this.dataProvider.getItemIndex, this.dataProvider) : null;
             },
 
             handleItemMouseDown: function (event, b, itemRenderer) {
-                this.selectedIndex = this.dataProvider.getItemIndex(itemRenderer.data);
+                var clickedIndex = this.dataProvider.getItemIndex(itemRenderer.data);
+
+                if (event.ctrlKey) this.modifySelection(clickedIndex);
+                else this.selectedIndex = clickedIndex;
             },
 
-            updateSelection: function () {
+            modifySelection: function (index) {
+                var indexPosition = this.selectedIndices.indexOf(index);
+
+                if (indexPosition == -1) this.selectedIndices.push(index);
+                else this.selectedIndices.splice(indexPosition, 1);
+
+                this.commitSelection();
+            },
+
+            commitSelection: function () {
+                var numIndices = this.selectedIndices ? this.selectedIndices.length : 0;
+
+                this._selectedIndex = numIndices ? this.selectedIndices[numIndices - 1] : null;
+                this._selectedItem = this.selectedIndex == null ?
+                        null : this.dataProvider.getItemAt(this.selectedIndex);
+                this._selectedItems = this.selectedIndices ?
+                        this.selectedIndices.map(this.dataProvider.getItemAt, this.dataProvider) : null;
+
+                this.updateSelectedRenderers();
+            },
+
+            updateSelectedRenderers: function () {
                 var i = 0;
                 var renderer = this.$.rendererTemplate;
 
                 while (renderer = renderer.nextElementSibling) {
-                    renderer.selected = i++ == this.selectedIndex;
+                    renderer.selected = this.selectedIndices.indexOf(i++) != -1;
                 }
             }
         });
@@ -64,8 +99,7 @@
 
         <ul id="list">
             <template id="rendererTemplate" repeat="{{dataProvider.items}}">
-                <fx-item-renderer id="renderer" data="{{}}" on-mousedown="handleItemMouseDown">
-                </fx-item-renderer>
+                <fx-item-renderer id="renderer" data="{{}}" on-mousedown="handleItemMouseDown"></fx-item-renderer>
             </template>
         </ul>
     </template>

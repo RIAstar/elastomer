@@ -10,7 +10,11 @@
             dp: new ArrayList(),
 
             ready: function () {
-                this.dp.source = ["A", "B", "C"];
+                this.dp.source = [
+                    "Take the trash out",
+                    "Code some polymers",
+                    "Kill my darlings"
+                ];
                 this.$.newTodoInput.addEventListener(FlexEvent.ENTER, this.createTodo.bind(this));
             },
 
@@ -55,7 +59,18 @@
 
         <footer>
             <p>selectedIndex: {{$.myList.selectedIndex}}</p>
-            <p>selectedItem: {{$.myList.selectedItem}}</p>
+
+            <p>selectedItem:<br>{{$.myList.selectedItem}}</p>
+
+            <p>selectedIndices:</p>
+            <template repeat="{{$.myList.selectedIndices}}">
+                <li>{{}}</li>
+            </template>
+
+            <p>selectedItems:</p>
+            <template repeat="{{$.myList.selectedItems}}">
+                <li>{{}}</li>
+            </template>
         </footer>
     </template>
 
