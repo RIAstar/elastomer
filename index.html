@@ -2,13 +2,26 @@
 <html>
 
 <head>
+    <style>
+        div {
+            background-color: #ff0000;
+            font-size: 18px;
+            padding: 25px;
+            display: none;
+        }
+    </style>
+
     <script src="lib/polymer.min.js"></script>
     <link rel="import" href="net/riastar/todomvc/TodoMVC.html">
     <link rel="stylesheet" href="spark.css"/>
 </head>
 
 <body>
+<div id="badBrowserMsg">This stuff only works properly in Chrome!</div>
 <fx-todo-mvc></fx-todo-mvc>
+<script type="text/javascript">
+    if (!window.chrome) document.getElementById('badBrowserMsg').style.display = 'block';
+</script>
 </body>
 
 </html>
